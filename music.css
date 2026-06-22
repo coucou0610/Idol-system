@@ -1797,6 +1797,34 @@
     gap: 8px;
 }
 
+.stm-preview-overlay {
+    inset: 44px 42px 32px !important;
+    background: #f8f7f3 !important;
+    border: 1px solid rgba(80, 72, 64, 0.22) !important;
+    border-radius: 10px !important;
+    box-shadow:
+        0 22px 55px rgba(0, 0, 0, 0.28),
+        0 0 0 999px rgba(20, 17, 14, 0.42) !important;
+    overflow: hidden !important;
+}
+
+.stm-preview-overlay .stm-history-header {
+    background: #f8f7f3 !important;
+    border-bottom: 1px solid rgba(80, 72, 64, 0.18) !important;
+}
+
+.stm-preview-overlay .stm-history-title {
+    color: var(--stm-text-dark) !important;
+}
+
+.stm-preview-overlay .stm-history-list {
+    background: #fbfaf7 !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-preview-overlay {
+    inset: 58px clamp(28px, 4vw, 56px) 34px !important;
+}
+
 .stm-preview-confirm-btn {
     background: var(--stm-accent) !important;
     color: #fff !important;
