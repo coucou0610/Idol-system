@@ -347,6 +347,15 @@ console.log("🎵 [ST Music] 脚本文件已加载 (Client Mode)");
         // --- 初始化 ---
         async init(options = {}) {
             if (this.initialized) {
+                if (!document.getElementById("st-music-panel")) {
+                    this.initialized = false;
+                    this.panelLoaded = false;
+                } else {
+                    this.removeSettingsUi();
+                    return;
+                }
+            }
+            if (this.initialized) {
                 this.removeSettingsUi();
                 return;
             }
@@ -388,6 +397,7 @@ console.log("🎵 [ST Music] 脚本文件已加载 (Client Mode)");
             const viewName = this.currentView && this.currentView !== "player" ? this.currentView : "create";
             this.toggleView(viewName);
             this.applyEmbeddedLayout(panel);
+            this.removeSettingsUi();
         },
 
         applyEmbeddedLayout(panel) {
@@ -1148,7 +1158,10 @@ ${musicNoteTemplate}
                 textarea.dispatchEvent(new Event('input', { bubbles: true }));
                 textarea.focus();
 
-                this.togglePanel();
+                const panel = document.getElementById("st-music-panel");
+                if (!panel || !panel.classList.contains("stm-embedded")) {
+                    this.togglePanel();
+                }
                 if (typeof toastr !== "undefined") toastr.success("音乐创作提示词已注入输入框");
             } else {
                 // 回退：复制到剪贴板
