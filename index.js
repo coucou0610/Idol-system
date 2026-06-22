@@ -3381,11 +3381,6 @@
     // ==========================================
     // 统一左侧导航切换/ ==========================================
     window.CTEIdolManager.switchMainView = async function (viewName, btn) {
-        if (viewName === "music") {
-            await openMusicCreatorPanel();
-            return;
-        }
-
         // 更新左侧按钮active状态
         document.querySelectorAll(".cte-left-nav-btn").forEach(b => b.classList.remove("active"));
         if (btn) btn.classList.add("active");
@@ -3431,8 +3426,19 @@
 
             // 把rpg-content-area指向这里
             rpgWrapper.id = "cte-idol-rpg-content-area";
+            rpgWrapper.style.padding = viewName === "music" ? "0" : "20px";
+            rpgWrapper.style.overflowY = viewName === "music" ? "hidden" : "auto";
             if (viewName === "settings" && window.IdolSettings?.renderSettings) {
                 window.IdolSettings.renderSettings(rpgWrapper);
+            } else if (viewName === "music") {
+                rpgWrapper.innerHTML = '<div style="padding:30px; color:#666; font-family:serif;">音乐创作模块加载中...</div>';
+                const loaded = await ensureMusicModuleLoaded();
+                if (loaded && window.STMusic?.renderInline) {
+                    rpgWrapper.innerHTML = "";
+                    await window.STMusic.renderInline(rpgWrapper);
+                } else {
+                    rpgWrapper.innerHTML = '<div style="padding:30px; color:#b03050; font-family:serif;">音乐创作模块加载失败，请确认 MusicModule.js、music.html、music.css 已放入插件目录。</div>';
+                }
             } else {
                 window.CTEIdolManager.renderRPGContent(viewName);
             }
