@@ -1311,6 +1311,49 @@
     display: none;
 }
 
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded.stm-view-create .stm-player-section,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded.stm-view-results .stm-player-section {
+    display: none !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded.stm-view-create .stm-content-section,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded.stm-view-results .stm-content-section {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded.stm-view-create .stm-form-scroll {
+    padding-left: clamp(24px, 5vw, 64px);
+    padding-right: clamp(24px, 5vw, 64px);
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded.stm-view-player .stm-body {
+    align-items: stretch !important;
+    justify-content: center !important;
+    padding: 18px 20px 22px !important;
+    box-sizing: border-box !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded.stm-view-player .stm-player-section {
+    display: flex !important;
+    width: min(360px, 100%) !important;
+    height: 100% !important;
+    border: 1px solid var(--stm-border) !important;
+    border-radius: 10px !important;
+    background: var(--stm-surface) !important;
+    padding: 14px !important;
+    box-sizing: border-box !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded.stm-view-player .stm-playlist-area {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded.stm-view-player .stm-content-section {
+    display: none !important;
+}
+
 /* 紧凑模式：标签按钮仅显示图标 */
 .stm-compact .stm-tab-btn .stm-tab-text {
     display: none;
