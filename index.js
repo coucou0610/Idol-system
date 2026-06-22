@@ -2,11 +2,26 @@
     // ==========================================
     // 0. 插件配置与上下文
     // ==========================================
-    const currentScriptSrc = document.currentScript?.src || "";
-    const extensionPath = currentScriptSrc
-        ? currentScriptSrc.substring(0, currentScriptSrc.lastIndexOf("/"))
-        : "scripts/extensions/third-party/User-Idol-CTE-api-";
-    const extensionName = extensionPath.split("/").filter(Boolean).pop() || "User-Idol-CTE-api-";
+    function resolveExtensionPath() {
+        const currentScriptSrc = document.currentScript?.src || "";
+        const scriptSources = Array.from(document.scripts || [])
+            .map((script) => script.src || "")
+            .filter(Boolean);
+        const matchedScriptSrc = currentScriptSrc || scriptSources.reverse().find((src) => (
+            src.includes("/scripts/extensions/third-party/")
+            && /\/index\.js(?:\?|$)/.test(src)
+            && (src.includes("Idol-system") || src.includes("User-Idol"))
+        ));
+
+        if (matchedScriptSrc) {
+            return matchedScriptSrc.substring(0, matchedScriptSrc.lastIndexOf("/"));
+        }
+
+        return "scripts/extensions/third-party/Idol-system-main";
+    }
+
+    const extensionPath = resolveExtensionPath();
+    const extensionName = extensionPath.split("/").filter(Boolean).pop() || "Idol-system-main";
     let stContext = null;
     const DEFAULT_NATIONAL_BG = "https://files.catbox.moe/8z3pnp.png";
 
@@ -82,13 +97,25 @@
 
     async function ensureMusicModuleLoaded() {
         if (window.STMusic?.sharedApiNoSettings && window.STMusic?.init && window.STMusic?.togglePanel) return true;
-        try {
-            await loadScriptOnce(`${extensionPath}/MusicModule.js?v=${Date.now()}`);
-            return !!window.STMusic?.sharedApiNoSettings && !!window.STMusic?.init && !!window.STMusic?.togglePanel;
-        } catch (error) {
-            console.error("[CTE-Map] 音乐模块加载失败:", error);
-            return false;
+        const timestamp = Date.now();
+        const candidatePaths = [
+            `${extensionPath}/MusicModule.js?v=${timestamp}`,
+            `scripts/extensions/third-party/Idol-system-main/MusicModule.js?v=${timestamp}`,
+            `scripts/extensions/third-party/Idol-system/MusicModule.js?v=${timestamp}`,
+            `scripts/extensions/third-party/User-Idol-CTE-api-/MusicModule.js?v=${timestamp}`,
+        ];
+
+        for (const src of [...new Set(candidatePaths)]) {
+            try {
+                await loadScriptOnce(src);
+                if (window.STMusic?.sharedApiNoSettings && window.STMusic?.init && window.STMusic?.togglePanel) {
+                    return true;
+                }
+            } catch (error) {
+                console.warn("[CTE-Map] 音乐模块路径尝试失败:", src, error);
+            }
         }
+        return false;
     }
 
     async function openMusicCreatorPanel() {
