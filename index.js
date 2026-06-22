@@ -47,9 +47,12 @@
     // 加载独立API样式
     function loadExternalStyles() {
         ["ApiSetting.css", "music.css"].forEach((file) => {
+            document
+                .querySelectorAll(`link[href*="${extensionPath}/${file}"]`)
+                .forEach((el) => el.remove());
             const link = document.createElement("link");
             link.rel = "stylesheet";
-            link.href = `${extensionPath}/${file}`;
+            link.href = `${extensionPath}/${file}?v=${Date.now()}`;
             document.head.appendChild(link);
         });
     }
@@ -98,6 +101,7 @@
         }
 
         await window.STMusic.init({ embedded: true });
+        if (window.STMusic.removeSettingsUi) window.STMusic.removeSettingsUi();
         const panel = document.getElementById("st-music-panel");
         if (panel) {
             panel.classList.remove("stm-embedded");
@@ -115,6 +119,7 @@
             panel.style.zIndex = "";
         }
         if (window.STMusic.toggleView) window.STMusic.toggleView("create");
+        if (window.STMusic.removeSettingsUi) window.STMusic.removeSettingsUi();
         window.STMusic.togglePanel();
     }
 
