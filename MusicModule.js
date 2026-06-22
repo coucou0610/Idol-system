@@ -15,33 +15,106 @@ console.log("🎵 [ST Music] 脚本文件已加载 (Client Mode)");
         : "scripts/extensions/third-party/User-Idol-CTE-api-";
     const MUSIC_MODULE_VERSION = "shared-api-no-settings-20260623";
 
+    // --- 内置偶像系统 API 桥接：打开音乐窗口不再依赖额外 API 文件 ---
+    function installMusicApiBridge() {
+        if (window.MusicApiService?.sharedApiBridge) return;
+
+        const systemPrompt = `你是一个中文音乐创作助手。请根据用户提供的角色、风格、乐器、BPM、人声、韵脚等参数，生成适合偶像企划使用的歌词与制作笔记。必须只输出 <music>...</music> 包裹的内容。`;
+        let currentAbortController = null;
+
+        function getApiConfig() {
+            if (window.IdolApiService?.getApiConfig) return window.IdolApiService.getApiConfig();
+            return { url: "", key: "", model: "", temperature: 0.8, max_tokens: 3000 };
+        }
+
+        function getContextCount() {
+            if (window.IdolApiService?.getContextCount) return window.IdolApiService.getContextCount();
+            return 3;
+        }
+
+        function getChatContext(count) {
+            const context = window.SillyTavern ? window.SillyTavern.getContext() : null;
+            const chat = context?.chat || [];
+            return chat.slice(-Math.max(0, count || 0)).map((msg) => ({
+                role: msg.is_user ? "user" : "assistant",
+                content: msg.mes || "",
+            })).filter((msg) => msg.content);
+        }
+
+        function buildApiUrl(baseUrl) {
+            const clean = String(baseUrl || "").trim().replace(/\/+$/, "");
+            if (!clean) return "";
+            if (clean.endsWith("/chat/completions")) return clean;
+            return `${clean}/chat/completions`;
+        }
+
+        async function callMusicNoteApi(promptText) {
+            const config = getApiConfig();
+            if (!config.url || !config.key || !config.model) {
+                return { success: false, error: "请先在偶像系统的插件设置中配置 API 地址、密钥和模型。" };
+            }
+
+            const messages = [
+                { role: "system", content: systemPrompt },
+                ...getChatContext(getContextCount()),
+                { role: "user", content: promptText },
+            ];
+
+            currentAbortController = new AbortController();
+            try {
+                const response = await fetch(buildApiUrl(config.url), {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${config.key}`,
+                    },
+                    body: JSON.stringify({
+                        model: config.model,
+                        messages,
+                        temperature: Number(config.temperature ?? 0.8),
+                        max_tokens: Number(config.max_tokens ?? 3000),
+                    }),
+                    signal: currentAbortController.signal,
+                });
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API 请求失败: ${response.status} ${errorText}`);
+                }
+                const data = await response.json();
+                const content = data?.choices?.[0]?.message?.content || data?.message?.content || "";
+                if (!content) throw new Error("无法解析 API 响应");
+                return { success: true, content };
+            } catch (error) {
+                if (error.name === "AbortError") return { success: false, error: "请求已终止" };
+                return { success: false, error: error.message || "未知错误" };
+            } finally {
+                currentAbortController = null;
+            }
+        }
+
+        function abortCurrentRequest() {
+            if (currentAbortController) currentAbortController.abort();
+        }
+
+        window.MusicApiService = {
+            sharedApiBridge: true,
+            getApiConfig,
+            saveApiConfig: () => false,
+            getContextCount,
+            saveContextCount: () => false,
+            getGeminiConfig: () => ({ key: "", model: "" }),
+            saveGeminiConfig: () => false,
+            callMusicNoteApi,
+            abortCurrentRequest,
+            getChatContext,
+            getSystemPrompt: () => systemPrompt,
+        };
+    }
+
     // --- 加载音乐 API 桥接模块 ---
     function loadExternalScripts() {
-        if (window.MusicApiService?.sharedApiBridge) {
-            return Promise.resolve();
-        }
-        return new Promise((resolve, reject) => {
-            const scripts = [
-                `${extensionPath}/musicApiService.js?v=${Date.now()}`,
-            ];
-            let loaded = 0;
-            scripts.forEach((src) => {
-                const script = document.createElement("script");
-                script.src = src;
-                script.onload = () => {
-                    loaded++;
-                    if (loaded === scripts.length) {
-                        console.log("🎵 [ST Music] 偶像系统API桥接模块加载完成");
-                        resolve();
-                    }
-                };
-                script.onerror = () => {
-                    console.error("🎵 [ST Music] 加载失败:", src);
-                    reject(new Error(`Failed to load ${src}`));
-                };
-                document.head.appendChild(script);
-            });
-        });
+        installMusicApiBridge();
+        return Promise.resolve();
     }
 
     // --- 数据常量 ---
