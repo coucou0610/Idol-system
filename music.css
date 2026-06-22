@@ -1961,3 +1961,143 @@
 #stm-page-settings {
     display: none !important;
 }
+
+/* Idol-system embedded dark brown / black-gold theme */
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded {
+    --stm-surface: #211a14;
+    --stm-surface-dark: #2b2118;
+    --stm-border: rgba(191, 154, 91, 0.34);
+    --stm-text-dark: #d7b879;
+    --stm-text-sub: #b89663;
+    --stm-text-muted: #8f7653;
+    --stm-accent: #b98a44;
+    --stm-accent-hover: #d0a45c;
+    --stm-mesh-dot: rgba(184, 144, 83, 0.18);
+    background: #17120e !important;
+    color: #d7b879 !important;
+    border: 1px solid rgba(184, 144, 83, 0.48) !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-header,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-content-section,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-results-container,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-form-scroll {
+    background: #17120e !important;
+    color: #d7b879 !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-brand,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-results-title,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-label,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-history-title,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-timbre-title,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-subgenre-title {
+    color: #e0c27f !important;
+    opacity: 1 !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-model,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-note,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-hint,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-genre-desc,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-toggle-desc,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-empty-text {
+    color: #9d8055 !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-input {
+    color: #e7cf95 !important;
+    border-bottom-color: rgba(191, 154, 91, 0.45) !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-input::placeholder {
+    color: rgba(214, 184, 121, 0.48) !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-toggle-btn,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-gender-selector,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-gender-btn,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-timbre-panel,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-subgenre-panel,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-lyrics-panel,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-result-content,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-history-entry,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-history-detail,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-preview-textarea,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-select,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-lyric-input,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-rhyme-slider-label {
+    background: #2a2017 !important;
+    color: #d8bb7b !important;
+    border-color: rgba(191, 154, 91, 0.34) !important;
+    box-shadow: none !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-toggle-btn:hover,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-gender-btn:hover,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-history-entry-header:hover {
+    background: #342719 !important;
+    color: #ead39a !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-toggle-btn.active,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-gender-btn.active {
+    background: #b98a44 !important;
+    color: #17120e !important;
+    border-color: #d0a45c !important;
+    font-weight: 700 !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-toggle-btn.active::after {
+    background: #17120e !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-playlist-area {
+    background-color: #241a12 !important;
+    box-shadow: inset 0 0 0 1px rgba(191, 154, 91, 0.22) !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-playlist-overlay {
+    background: rgba(26, 19, 13, 0.86) !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-player-section {
+    background: #20170f !important;
+    border-color: rgba(191, 154, 91, 0.4) !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-player-controls,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-playback-group,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-ctrl-btn {
+    background: #2a2017 !important;
+    color: #d8bb7b !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-play-btn {
+    background: #b98a44 !important;
+    color: #17120e !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-preview-overlay {
+    background: #241a12 !important;
+    border-color: rgba(208, 164, 92, 0.46) !important;
+    box-shadow:
+        0 22px 55px rgba(0, 0, 0, 0.38),
+        0 0 0 999px rgba(12, 8, 5, 0.5) !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-preview-overlay .stm-history-header,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-preview-overlay .stm-history-list {
+    background: #241a12 !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-preview-content,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-history-detail-content {
+    color: #d8bb7b !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-preview-badge,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-token-count {
+    background: #3a2b1b !important;
+    color: #e0c27f !important;
+}
