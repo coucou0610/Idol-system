@@ -1276,26 +1276,27 @@
 /* Embedded inside Idol Manager panel */
 #cte-idol-rpg-content-area #st-music-root,
 #cte-idol-rpg-content-area #st-music-panel {
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
 }
 
 #cte-idol-rpg-content-area #st-music-panel.stm-embedded {
-    position: relative;
-    top: auto;
-    left: auto;
-    right: auto;
-    bottom: auto;
-    transform: none;
-    display: flex;
-    opacity: 1;
-    width: 100%;
-    max-width: none;
-    height: 100%;
-    max-height: none;
-    border-radius: 4px;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    display: flex !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: 100% !important;
+    max-height: none !important;
+    border-radius: 4px !important;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-    z-index: auto;
+    z-index: auto !important;
+    padding-bottom: 0 !important;
 }
 
 #cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-header {
