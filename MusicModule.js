@@ -548,6 +548,10 @@ console.log("🎵 [ST Music] 脚本文件已加载 (Client Mode)");
             if (resultsPage) resultsPage.style.display = 'none';
 
             const isEmbedded = panel && panel.classList.contains("stm-embedded");
+            if (panel) {
+                panel.classList.remove("stm-view-player", "stm-view-create", "stm-view-results");
+                panel.classList.add(`stm-view-${viewName}`);
+            }
 
             if (viewName === 'player') {
                 // 紧凑播放器模式
