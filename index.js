@@ -78,10 +78,10 @@
     }
 
     async function ensureMusicModuleLoaded() {
-        if (window.STMusic?.init && window.STMusic?.togglePanel) return true;
+        if (window.STMusic?.sharedApiNoSettings && window.STMusic?.init && window.STMusic?.togglePanel) return true;
         try {
-            await loadScriptOnce(`${extensionPath}/MusicModule.js`);
-            return !!window.STMusic?.init && !!window.STMusic?.togglePanel;
+            await loadScriptOnce(`${extensionPath}/MusicModule.js?v=${Date.now()}`);
+            return !!window.STMusic?.sharedApiNoSettings && !!window.STMusic?.init && !!window.STMusic?.togglePanel;
         } catch (error) {
             console.error("[CTE-Map] 音乐模块加载失败:", error);
             return false;

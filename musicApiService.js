@@ -429,6 +429,8 @@
     // ========== 导出到全局 ==========
 
     window.MusicApiService = {
+        sharedApiBridge: true,
+
         // 配置管理
         getApiConfig,
         saveApiConfig,

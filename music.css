@@ -1885,3 +1885,7 @@
     border-radius: 4px;
     flex-shrink: 0;
 }
+#stm-tab-settings,
+#stm-page-settings {
+    display: none !important;
+}

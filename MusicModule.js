@@ -13,15 +13,16 @@ console.log("🎵 [ST Music] 脚本文件已加载 (Client Mode)");
     const extensionPath = currentScriptSrc
         ? currentScriptSrc.substring(0, currentScriptSrc.lastIndexOf("/"))
         : "scripts/extensions/third-party/User-Idol-CTE-api-";
+    const MUSIC_MODULE_VERSION = "shared-api-no-settings-20260623";
 
     // --- 加载音乐 API 桥接模块 ---
     function loadExternalScripts() {
-        if (window.MusicApiService) {
+        if (window.MusicApiService?.sharedApiBridge) {
             return Promise.resolve();
         }
         return new Promise((resolve, reject) => {
             const scripts = [
-                `${extensionPath}/musicApiService.js`,
+                `${extensionPath}/musicApiService.js?v=${Date.now()}`,
             ];
             let loaded = 0;
             scripts.forEach((src) => {
@@ -272,10 +273,14 @@ console.log("🎵 [ST Music] 脚本文件已加载 (Client Mode)");
 
         // --- 初始化 ---
         async init(options = {}) {
-            if (this.initialized) return;
+            if (this.initialized) {
+                this.removeSettingsUi();
+                return;
+            }
             console.log("🎵 [ST Music] 插件正在启动...");
             if (!options.embedded) this.injectToggleButton();
             await this.loadHTML(options.container);
+            this.removeSettingsUi();
             if (this.panelLoaded) {
                 // 加载音乐 API 桥接模块
                 try {
@@ -284,6 +289,7 @@ console.log("🎵 [ST Music] 脚本文件已加载 (Client Mode)");
                     console.warn("🎵 [ST Music] API桥接模块加载失败:", e);
                 }
                 this.bindEvents();
+                this.removeSettingsUi();
                 this.renderVocalButtons();
                 this.renderVoiceTimbreButtons();
                 this.renderGenreButtons();
@@ -327,6 +333,24 @@ console.log("🎵 [ST Music] 脚本文件已加载 (Client Mode)");
             panel.style.maxHeight = "none";
             panel.style.borderRadius = "4px";
             panel.style.opacity = "1";
+        },
+
+        removeSettingsUi() {
+            document.querySelectorAll("#stm-tab-settings, #stm-page-settings").forEach((el) => el.remove());
+            document.querySelectorAll(".stm-tab-btn").forEach((btn) => {
+                const text = (btn.textContent || "").trim();
+                const title = (btn.getAttribute("title") || "").trim();
+                if (text === "设置" || title.includes("API设置")) btn.remove();
+            });
+            document.querySelectorAll(".stm-page").forEach((page) => {
+                const text = page.textContent || "";
+                if (text.includes("GEMINI API") || text.includes("OTHER MODEL") || text.includes("API 密钥")) {
+                    page.remove();
+                }
+            });
+            if (window.MusicSettings) {
+                try { delete window.MusicSettings; } catch (e) { window.MusicSettings = undefined; }
+            }
         },
 
         // 音乐模块不再提供独立设置页，统一读取偶像系统 API 配置
@@ -1951,6 +1975,9 @@ ${this.state.otherRequirements ? this.state.otherRequirements + '\n' : ''}不仅
             }
         }
     };
+
+    STMusic.version = MUSIC_MODULE_VERSION;
+    STMusic.sharedApiNoSettings = true;
 
     // 启动
     window.STMusic = STMusic;
