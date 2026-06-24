@@ -3546,6 +3546,11 @@
         document
             .querySelectorAll("#cte-idol-map-panel, #cte-idol-toggle-btn")
             .forEach((el) => el.remove());
+        // Older manifests injected map.html directly into <body>. Remove those
+        // orphaned duplicate views so all IDs resolve inside the managed panel.
+        document
+            .querySelectorAll("body > .cte-idol-view, body > .cte-idol-popup, body > .cte-idol-popup-overlay, body > #cte-idol-travel-menu-overlay, body > #cte-idol-participant-popup")
+            .forEach((el) => el.remove());
         document
             .querySelectorAll(`link[href*="${extensionName}/style.css"]`)
             .forEach((el) => el.remove());
