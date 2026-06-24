@@ -362,6 +362,112 @@
     background: rgba(255, 255, 255, 0.2);
 }
 
+/* 播放进度 */
+.stm-progress-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--stm-border);
+    border-radius: 8px;
+    background: var(--stm-surface-dark);
+}
+
+.stm-progress-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-width: 0;
+    color: var(--stm-text-sub);
+    font-size: 10px;
+}
+
+.stm-progress-track {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stm-progress-time {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 4px;
+    font-variant-numeric: tabular-nums;
+}
+
+.stm-progress-separator {
+    opacity: 0.45;
+}
+
+.stm-progress-range {
+    --stm-progress: 0%;
+    width: 100%;
+    height: 16px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.stm-progress-range::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 4px;
+    background: linear-gradient(
+        to right,
+        var(--stm-accent) 0,
+        var(--stm-accent) var(--stm-progress),
+        rgba(143, 118, 83, 0.35) var(--stm-progress),
+        rgba(143, 118, 83, 0.35) 100%
+    );
+}
+
+.stm-progress-range::-webkit-slider-thumb {
+    width: 13px;
+    height: 13px;
+    margin-top: -4.5px;
+    border: 2px solid var(--stm-surface-dark);
+    border-radius: 50%;
+    background: var(--stm-accent-hover);
+    box-shadow: 0 0 0 1px var(--stm-accent);
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.stm-progress-range::-moz-range-track {
+    height: 4px;
+    border-radius: 4px;
+    background: rgba(143, 118, 83, 0.35);
+}
+
+.stm-progress-range::-moz-range-progress {
+    height: 4px;
+    border-radius: 4px;
+    background: var(--stm-accent);
+}
+
+.stm-progress-range::-moz-range-thumb {
+    width: 13px;
+    height: 13px;
+    border: 2px solid var(--stm-surface-dark);
+    border-radius: 50%;
+    background: var(--stm-accent-hover);
+    box-shadow: 0 0 0 1px var(--stm-accent);
+}
+
+.stm-progress-range:disabled {
+    cursor: default;
+    opacity: 0.45;
+}
+
 /* 播放控件 */
 .stm-player-controls {
     display: flex;
@@ -2070,6 +2176,16 @@
 #cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-playback-group,
 #cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-ctrl-btn {
     background: #2a2017 !important;
+    color: #d8bb7b !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-progress-panel {
+    background: #2a2017 !important;
+    border-color: rgba(191, 154, 91, 0.34) !important;
+}
+
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-progress-track,
+#cte-idol-rpg-content-area #st-music-panel.stm-embedded .stm-progress-time {
     color: #d8bb7b !important;
 }
 
