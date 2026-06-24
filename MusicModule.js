@@ -728,7 +728,6 @@ console.log("🎵 [ST Music] 脚本文件已加载 (Client Mode)");
             const prevBtn = document.getElementById("stm-btn-prev");
             const nextBtn = document.getElementById("stm-btn-next");
             const audioPlayer = document.getElementById("stm-audio-player");
-            const progressRange = document.getElementById("stm-progress-range");
 
             if (uploadBtn && fileInput) {
                 uploadBtn.onclick = () => fileInput.click();
@@ -754,21 +753,7 @@ console.log("🎵 [ST Music] 脚本文件已加载 (Client Mode)");
                 audioPlayer.onended = () => this.nextTrack();
                 audioPlayer.onplay = () => this.updatePlayIcon(true);
                 audioPlayer.onpause = () => this.updatePlayIcon(false);
-                audioPlayer.onloadedmetadata = () => this.updateProgressDisplay();
-                audioPlayer.ondurationchange = () => this.updateProgressDisplay();
-                audioPlayer.ontimeupdate = () => this.updateProgressDisplay();
-                audioPlayer.onemptied = () => this.resetProgressDisplay();
             }
-
-            if (progressRange && audioPlayer) {
-                progressRange.oninput = () => {
-                    if (!Number.isFinite(audioPlayer.duration) || audioPlayer.duration <= 0) return;
-                    audioPlayer.currentTime = (Number(progressRange.value) / 100) * audioPlayer.duration;
-                    this.updateProgressDisplay();
-                };
-            }
-
-            this.updateProgressDisplay();
         },
 
         // --- 渲染函数 ---
@@ -2008,15 +1993,10 @@ ${this.state.otherRequirements ? this.state.otherRequirements + '\n' : ''}不仅
                         // Stop playing if deleted current
                         if (idx === this.player.currentTrackIndex) {
                             const audio = document.getElementById("stm-audio-player");
-                            if (audio) {
-                                audio.pause();
-                                audio.removeAttribute("src");
-                                audio.load();
-                            }
+                            if (audio) audio.pause();
                             this.player.currentTrackIndex = null;
                             this.player.isPlaying = false;
                             this.updatePlayIcon(false);
-                            this.resetProgressDisplay();
                         } else if (idx < this.player.currentTrackIndex) {
                             // Adjust index
                             this.player.currentTrackIndex--;
@@ -2038,8 +2018,6 @@ ${this.state.otherRequirements ? this.state.otherRequirements + '\n' : ''}不仅
 
             if (audio) {
                 audio.src = track.url;
-                audio.load();
-                this.updateProgressTrack(track.name);
                 audio.play().then(() => {
                     this.player.isPlaying = true;
                     this.updatePlayIcon(true);
@@ -2058,18 +2036,9 @@ ${this.state.otherRequirements ? this.state.otherRequirements + '\n' : ''}不仅
 
             if (this.player.playlist.length === 0) return;
 
-            if (this.player.currentTrackIndex === null || !audio.src) {
-                this.playTrack(0);
-                return;
-            }
-
             if (audio.paused) {
-                audio.play().then(() => {
-                    this.player.isPlaying = true;
-                }).catch(e => {
-                    console.error("Play error:", e);
-                    if (typeof toastr !== "undefined") toastr.error("播放失败: " + e.message);
-                });
+                audio.play();
+                this.player.isPlaying = true;
             } else {
                 audio.pause();
                 this.player.isPlaying = false;
@@ -2079,71 +2048,14 @@ ${this.state.otherRequirements ? this.state.otherRequirements + '\n' : ''}不仅
 
         prevTrack() {
             if (this.player.playlist.length === 0) return;
-            if (this.player.currentTrackIndex === null) {
-                this.playTrack(0);
-                return;
-            }
             let newIndex = (this.player.currentTrackIndex - 1 + this.player.playlist.length) % this.player.playlist.length;
             this.playTrack(newIndex);
         },
 
         nextTrack() {
             if (this.player.playlist.length === 0) return;
-            if (this.player.currentTrackIndex === null) {
-                this.playTrack(0);
-                return;
-            }
             let newIndex = (this.player.currentTrackIndex + 1) % this.player.playlist.length;
             this.playTrack(newIndex);
-        },
-
-        formatPlaybackTime(seconds) {
-            if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
-            const minutes = Math.floor(seconds / 60);
-            const remainingSeconds = Math.floor(seconds % 60).toString().padStart(2, "0");
-            return `${minutes}:${remainingSeconds}`;
-        },
-
-        updateProgressTrack(name) {
-            const trackLabel = document.getElementById("stm-progress-track");
-            if (trackLabel) trackLabel.textContent = name || "No Track Selected";
-        },
-
-        updateProgressDisplay() {
-            const audio = document.getElementById("stm-audio-player");
-            const progressRange = document.getElementById("stm-progress-range");
-            const currentTime = document.getElementById("stm-current-time");
-            const duration = document.getElementById("stm-duration");
-            if (!audio) return;
-
-            const total = Number.isFinite(audio.duration) ? audio.duration : 0;
-            const current = Number.isFinite(audio.currentTime) ? audio.currentTime : 0;
-            const percentage = total > 0 ? (current / total) * 100 : 0;
-
-            if (progressRange) {
-                progressRange.value = String(percentage);
-                progressRange.style.setProperty("--stm-progress", `${percentage}%`);
-                progressRange.disabled = total <= 0;
-            }
-            if (currentTime) currentTime.textContent = this.formatPlaybackTime(current);
-            if (duration) duration.textContent = this.formatPlaybackTime(total);
-
-            const track = this.player.playlist[this.player.currentTrackIndex];
-            this.updateProgressTrack(track?.name);
-        },
-
-        resetProgressDisplay() {
-            const progressRange = document.getElementById("stm-progress-range");
-            const currentTime = document.getElementById("stm-current-time");
-            const duration = document.getElementById("stm-duration");
-            if (progressRange) {
-                progressRange.value = "0";
-                progressRange.style.setProperty("--stm-progress", "0%");
-                progressRange.disabled = true;
-            }
-            if (currentTime) currentTime.textContent = "0:00";
-            if (duration) duration.textContent = "0:00";
-            this.updateProgressTrack("");
         },
 
         updatePlayIcon(isPlaying) {

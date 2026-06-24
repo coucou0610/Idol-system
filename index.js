@@ -3387,26 +3387,22 @@
 
         const contentArea = document.getElementById("cte-idol-content-area");
         if (!contentArea) return;
-        const coreViewsHost = contentArea.querySelector("#cte-idol-core-views");
 
         // 地图和行程：切换视图div
         if (viewName === "map" || viewName === "schedule") {
-            // 隐藏独立内容容器，保留其中的音乐模块状态
+            // 移除rpg容器（如果有）
             const rpgContainer = contentArea.querySelector(".cte-idol-rpg-wrapper");
             if (rpgContainer) rpgContainer.style.display = "none";
-            if (coreViewsHost) coreViewsHost.style.display = "block";
 
             // 隐藏所有view并显示目标
-            contentArea.querySelectorAll(".cte-idol-view").forEach(v => {
+            document.querySelectorAll(".cte-idol-view").forEach(v => {
                 v.classList.remove("active");
                 v.style.display = "none";
             });
-            const targetView = contentArea.querySelector(`#cte-idol-view-${viewName}`);
+            const targetView = document.getElementById(`cte-idol-view-${viewName}`);
             if (targetView) {
                 targetView.classList.add("active");
                 targetView.style.display = "block";
-            } else {
-                console.error(`[CTE Idol] Missing core view: ${viewName}`);
             }
 
             if (viewName === "schedule") {
@@ -3414,8 +3410,7 @@
             }
         } else {
             // agency/courses/shop/news：显示RPG内容区
-            if (coreViewsHost) coreViewsHost.style.display = "none";
-            contentArea.querySelectorAll(".cte-idol-view").forEach(v => {
+            document.querySelectorAll(".cte-idol-view").forEach(v => {
                 v.classList.remove("active");
                 v.style.display = "none";
             });
@@ -3546,11 +3541,6 @@
         document
             .querySelectorAll("#cte-idol-map-panel, #cte-idol-toggle-btn")
             .forEach((el) => el.remove());
-        // Older manifests injected map.html directly into <body>. Remove those
-        // orphaned duplicate views so all IDs resolve inside the managed panel.
-        document
-            .querySelectorAll("body > .cte-idol-view, body > .cte-idol-popup, body > .cte-idol-popup-overlay, body > #cte-idol-travel-menu-overlay, body > #cte-idol-participant-popup")
-            .forEach((el) => el.remove());
         document
             .querySelectorAll(`link[href*="${extensionName}/style.css"]`)
             .forEach((el) => el.remove());
@@ -3649,21 +3639,7 @@
             const contentArea = document.getElementById(
                 "cte-idol-content-area",
             );
-            if (contentArea) {
-                contentArea.innerHTML = "";
-
-                const coreViewsHost = document.createElement("div");
-                coreViewsHost.id = "cte-idol-core-views";
-                coreViewsHost.style.cssText = "width:100%; height:100%; position:relative; overflow:hidden;";
-                coreViewsHost.innerHTML = htmlContent;
-                contentArea.appendChild(coreViewsHost);
-
-                const rpgWrapper = document.createElement("div");
-                rpgWrapper.className = "cte-idol-rpg-wrapper";
-                rpgWrapper.id = "cte-idol-rpg-content-area";
-                rpgWrapper.style.cssText = "display:none; width:100%; height:100%; overflow-y:auto; padding:20px; box-sizing:border-box;";
-                contentArea.appendChild(rpgWrapper);
-            }
+            if (contentArea) contentArea.innerHTML = htmlContent;
 
             bindMapEvents();
             loadSavedPositions();
