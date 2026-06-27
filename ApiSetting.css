@@ -193,11 +193,11 @@
 /* 按钮 */
 .idol-btn {
   padding: 12px 24px;
-  border-radius: 6px;
+  border-radius: 0;
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, border-color 0.22s ease, color 0.22s ease;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
   border: 1px solid transparent;
   display: inline-flex;
   align-items: center;
@@ -207,31 +207,23 @@
 }
 
 .idol-btn-primary {
-  background: linear-gradient(135deg, #fffaf0 0%, #ead7ad 48%, #c89f5f 100%);
+  background: #e7cf92;
   color: #2a2118;
-  border-color: rgba(214, 177, 105, 0.92);
-  box-shadow:
-    0 8px 18px rgba(16, 10, 6, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.72);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+  border-color: #b99352;
+  box-shadow: none;
+  text-shadow: none;
 }
 
 .idol-btn-primary:hover {
-  transform: translateY(-2px);
-  background: linear-gradient(135deg, #fffdf7 0%, #f0dfb9 45%, #d5af6c 100%);
-  border-color: #e3c37f;
+  background: #f0dca8;
+  border-color: #c6a05f;
   color: #1f1710;
-  box-shadow:
-    0 10px 22px rgba(16, 10, 6, 0.22),
-    0 0 0 1px rgba(255, 245, 219, 0.38),
-    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  box-shadow: none;
 }
 
 .idol-btn-primary:active {
-  transform: translateY(0);
-  box-shadow:
-    0 4px 10px rgba(16, 10, 6, 0.18),
-    inset 0 2px 4px rgba(72, 48, 24, 0.18);
+  background: #d8bb77;
+  box-shadow: inset 0 1px 2px rgba(42, 33, 24, 0.18);
 }
 
 /* 响应式 */
@@ -466,27 +458,22 @@
 }
 
 .idol-settings-inline .idol-btn {
-  border-radius: 4px;
+  border-radius: 0;
 }
 
 .idol-settings-inline .idol-btn-primary {
-  background: linear-gradient(135deg, #fffaf0 0%, #ead7ad 48%, #c89f5f 100%);
+  background: #e7cf92;
   color: #2a2118;
-  border: 1px solid rgba(214, 177, 105, 0.92);
-  box-shadow:
-    0 8px 18px rgba(16, 10, 6, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.72);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+  border: 1px solid #b99352;
+  box-shadow: none;
+  text-shadow: none;
 }
 
 .idol-settings-inline .idol-btn-primary:hover {
-  background: linear-gradient(135deg, #fffdf7 0%, #f0dfb9 45%, #d5af6c 100%);
+  background: #f0dca8;
   color: #1f1710;
-  border-color: #e3c37f;
-  box-shadow:
-    0 10px 22px rgba(16, 10, 6, 0.2),
-    0 0 0 1px rgba(255, 245, 219, 0.38),
-    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  border-color: #c6a05f;
+  box-shadow: none;
 }
 
 .idol-settings-inline .idol-btn-secondary {
