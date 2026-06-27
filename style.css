@@ -4109,34 +4109,50 @@
 /* ========================================== */
 
 .idol-generate-btn {
-    background: linear-gradient(135deg, #e94560 0%, #d63447 100%);
-    color: white;
-    border: none;
-    padding: 8px 16px;
+    background: linear-gradient(135deg, #fffaf0 0%, #ead7ad 48%, #c89f5f 100%);
+    color: #2a2118;
+    border: 1px solid rgba(214, 177, 105, 0.92);
+    padding: 8px 17px;
     border-radius: 6px;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 0;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(233, 69, 96, 0.3);
+    transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, border-color 0.22s ease;
+    box-shadow:
+        0 8px 18px rgba(16, 10, 6, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.72);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 .idol-generate-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4);
+    background: linear-gradient(135deg, #fffdf7 0%, #f0dfb9 45%, #d5af6c 100%);
+    border-color: #e3c37f;
+    box-shadow:
+        0 10px 22px rgba(16, 10, 6, 0.22),
+        0 0 0 1px rgba(255, 245, 219, 0.38),
+        inset 0 1px 0 rgba(255, 255, 255, 0.82);
 }
 
 .idol-generate-btn:active {
     transform: translateY(0);
+    box-shadow:
+        0 4px 10px rgba(16, 10, 6, 0.18),
+        inset 0 2px 4px rgba(72, 48, 24, 0.18);
 }
 
 .idol-generate-btn:disabled {
-    opacity: 0.6;
+    background: linear-gradient(135deg, #d8c8a7 0%, #bda06d 100%);
+    color: rgba(42, 33, 24, 0.58);
+    border-color: rgba(174, 143, 86, 0.56);
+    opacity: 0.75;
     cursor: not-allowed;
     transform: none;
+    box-shadow: none;
 }
 
 /* 主设置按钮样式 */
